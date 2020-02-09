@@ -1,0 +1,56 @@
+name: scuolabook
+version: "3.2.0"
+summary: Scuolabook
+icon: GUI/p7zip_32.png
+grade: stable
+description: |
+  Puoi leggere su computer desktop, sul portatile e sul tablet i tuoi libri scolastici digitali
+confinement: strict
+
+apps:
+  scuolabook:
+    command: bin/desktop-launch $SNAP/opt/scuolabook/run_scuolabook
+    desktop: usr/share/applications/scuolabook.desktop
+    plugs:
+      - alsa
+      - cups-control
+      - desktop
+      - desktop-legacy
+      - home
+      - opengl
+      - gsettings
+      - unity7
+      - pulseaudio
+      - removable-media
+      - wayland
+      - x11
+      
+parts:
+  scuolabook:
+    plugin: dump 
+    source: https://cdn-support.scuolabook.it/3.3/Scuolabook_3.3.0_amd64_16.04.deb
+  desktop-qt5:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-depth: 1
+    source-subdir: qt
+    plugin: make
+    make-parameters: ["FLAVOR=qt5"]
+    build-packages:
+      - build-essential
+      - qtbase5-dev
+      - dpkg-dev
+    stage-packages:
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libqt5gui5
+      - libgdk-pixbuf2.0-0
+      - libqt5svg5 # for loading icon themes which are svg
+      - try: [appmenu-qt5] # not available on core18
+      - locales-all
+      - xdg-user-dirs
+      - fcitx-frontend-qt5
