@@ -7,10 +7,15 @@ description: |
 confinement: strict
 architectures:
   - build-on: amd64
-
+  
+environment:
+  LD_LIBRARY_PATH: $SNAP/opt/scuolabook
+  QTWEBENGINEPROCESS_PATH: $SNAP/opt/scuolabook/QtWebEngineProcess
+  QSG_RENDER_LOOP: basic
+  
 apps:
   scuolabook:
-    command: bin/desktop-launch $SNAP/opt/scuolabook/run_scuolabook
+    command: bin/desktop-launch $SNAP/opt/scuolabook/Scuolabook
     desktop: usr/share/applications/scuolabook.desktop
     plugs:
       - alsa
@@ -25,13 +30,23 @@ apps:
       - removable-media
       - wayland
       - x11
-    stage-packages:
-      - libxslt1.1
       
 parts:
   scuolabook:
     plugin: dump 
     source: https://cdn-support.scuolabook.it/3.3/Scuolabook_3.3.0_amd64_16.04.deb
+    stage-packages:
+      - libxslt1.1
+      - gstreamer1.0-plugins-bad
+      - libpulse0
+      - libxrandr2
+      - libegl1-mesa
+      - libgl1-mesa-glx
+      - libnss3
+      - libqt5svg5
+      - libqt5webkit5
+      - libgdk-pixbuf2.0-0
+      
   desktop-qt5:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
     source-depth: 1
