@@ -9,6 +9,7 @@ architectures:
   - build-on: amd64
   
 environment:
+  HOME: /home/$USER
   LD_LIBRARY_PATH: $SNAP/opt/scuolabook
   QTWEBENGINEPROCESS_PATH: $SNAP/opt/scuolabook/QtWebEngineProcess
   QSG_RENDER_LOOP: basic
