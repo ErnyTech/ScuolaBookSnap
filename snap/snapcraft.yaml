@@ -25,6 +25,8 @@ apps:
       - removable-media
       - wayland
       - x11
+    stage-packages:
+      - libxslt1.1
       
 parts:
   scuolabook:
