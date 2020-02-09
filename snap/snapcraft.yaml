@@ -46,6 +46,7 @@ parts:
       - libqt5svg5
       - libqt5webkit5
       - libgdk-pixbuf2.0-0
+      - libxtst6
       
   desktop-qt5:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
