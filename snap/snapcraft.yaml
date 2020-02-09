@@ -36,6 +36,7 @@ parts:
   scuolabook:
     plugin: dump 
     source: https://cdn-support.scuolabook.it/3.3/Scuolabook_3.3.0_amd64_16.04.deb
+    after: [caches-packages]
     stage-packages:
       - libxslt1.1
       - gstreamer1.0-plugins-bad
@@ -48,6 +49,46 @@ parts:
       - libqt5webkit5
       - libgdk-pixbuf2.0-0
       - libxtst6
+      
+    caches-packages:
+      plugin: nil
+      stage-packages:
+        - adwaita-icon-theme
+        - gnome-icon-theme
+        - gsettings-desktop-schemas
+        - hicolor-icon-theme
+        - humanity-icon-theme
+        - libgtk-3-common
+        - shared-mime-info
+        - ubuntu-mono
+        - ubuntu-settings
+        - unity-gtk-module-common
+      build-packages:
+        - gtk-update-icon-cache
+        - libglib2.0-bin
+        - shared-mime-info
+      
+    caches-compilation:
+      plugin: nil
+      after: [scuolabook]
+      override-build: |
+        snapcraftctl build
+        set -eux
+        mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share
+        cp -R $SNAPCRAFT_STAGE/usr/share/mime $SNAPCRAFT_PART_INSTALL/usr/share/
+        cp -R $SNAPCRAFT_STAGE/usr/share/icons $SNAPCRAFT_PART_INSTALL/usr/share/
+        cp -R $SNAPCRAFT_STAGE/usr/share/glib-2.0 $SNAPCRAFT_PART_INSTALL/usr/share/
+        glib-compile-schemas $SNAPCRAFT_PART_INSTALL/usr/share/glib-2.0/schemas
+        update-mime-database $SNAPCRAFT_PART_INSTALL/usr/share/mime
+        for dir in $SNAPCRAFT_PART_INSTALL/usr/share/icons/*; do
+          if [ -f "$dir/index.theme" ]; then
+            gtk-update-icon-cache --force "$dir"
+          fi
+        done
+      prime:
+        - usr/share/glib-2.0/schemas/*
+        - usr/share/icons/*
+        - usr/share/mime/*
       
   desktop-qt5:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
