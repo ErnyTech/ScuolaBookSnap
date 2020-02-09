@@ -36,7 +36,6 @@ parts:
   scuolabook:
     plugin: dump 
     source: https://cdn-support.scuolabook.it/3.3/Scuolabook_3.3.0_amd64_16.04.deb
-    after: [caches-packages]
     stage-packages:
       - libxslt1.1
       - gstreamer1.0-plugins-bad
@@ -52,6 +51,7 @@ parts:
       
     caches-packages:
       plugin: nil
+      after: [scuolabook]
       stage-packages:
         - adwaita-icon-theme
         - gnome-icon-theme
@@ -70,7 +70,7 @@ parts:
       
     caches-compilation:
       plugin: nil
-      after: [scuolabook]
+      after: [caches-packages]
       override-build: |
         snapcraftctl build
         set -eux
