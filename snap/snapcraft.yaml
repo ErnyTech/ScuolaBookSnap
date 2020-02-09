@@ -6,6 +6,8 @@ grade: stable
 description: |
   Puoi leggere su computer desktop, sul portatile e sul tablet i tuoi libri scolastici digitali
 confinement: strict
+architectures:
+  - build-on: amd64
 
 apps:
   scuolabook:
