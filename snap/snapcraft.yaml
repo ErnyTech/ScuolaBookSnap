@@ -50,6 +50,7 @@ parts:
       - libxtst6
       - libxcomposite1
       - libpcre16-3
+      - libxcursor1
       
   caches-packages:
     plugin: nil
